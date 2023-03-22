@@ -1,4 +1,4 @@
-# A function to generate a template github README file for a application project
+# A function to generate a template github README file for an application project
 def readme
   # Get the project name from the current directory
   project_name = File.basename(Dir.getwd)
@@ -9,7 +9,7 @@ def readme
   # Get the current user email
   user_email = `git config --get user.email`.chomp
 
-  # Generate the README file
+  # Generate the README filer
   File.open('README.md', 'w') do |f|
     f.puts "# #{project_name}"
     f.puts

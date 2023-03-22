@@ -35,7 +35,7 @@ file1   | 0       | #{File.mtime("#{@test_dir}/file1")}
         FileUtils.rm_rf(@test_dir)
     end
 
-    # Assert that calling ls command from the terminal returns the expected output       
+    # Assert that calling ls command from the terminal returns the expected sorted output       
     def test_ls_command
         # Run the ls command from the terminal
         output = `ruby ls.rb #{@test_dir}`
@@ -56,7 +56,7 @@ file1   | 0       | #{File.mtime("#{@test_dir}/file1")}
         # Run the ls command from the terminal
         output = `ruby ls.rb invalid_dir`
         # Compare the output to the expected output
-        assert_equal("Directory invalid_dir does not exist  
+        assert_equal("Directory invalid_dir does not exist
 ", output)
     end
 

@@ -20,7 +20,7 @@ end
 # Lists each file with its name, size, and last modified date.
 # File size is a result of get_file_size function
 # Can take relative or absolute paths.
-# The table is sorted by last modified date.
+# The table is sorted by last modified date in descending order.
 # The columns adjust their width to the size of the longest entry. 
 # The table columns are outlined in ascii characters
 def list_files(dir)
@@ -29,6 +29,9 @@ def list_files(dir)
     # Remove the . and .. entries
     files.delete(".")
     files.delete("..")
+    # Sort the files by last modified date in descending order
+    files.sort_by! { |f| File.mtime("#{dir}/#{f}") }.reverse!
+
     # Get the longest file name
     longest_name = files.max_by(&:length).length
     # Get the longest file size
