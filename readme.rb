@@ -9,7 +9,7 @@ def readme
   # Get the current user email
   user_email = `git config --get user.email`.chomp
 
-  # Generate the README filer
+  # Generate the README file
   File.open('README.md', 'w') do |f|
     f.puts "# #{project_name}"
     f.puts
