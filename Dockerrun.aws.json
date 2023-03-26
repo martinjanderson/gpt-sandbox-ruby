@@ -1,0 +1,12 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "album-app",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "9292:9292"
+    }
+  ]
+}
