@@ -18,11 +18,11 @@ end
 post '/upload' do
     # Get the file from the request
     file = params[:file]
-    # Check if the file is over 10MB
-    if file.size > 10_000_000
-        # Throw an exception if the file is over 10MB
-        halt 400, "File size is over 10MB"
+    # Check if the image file is over 10MB throw an error
+    if file[:tempfile].size > convert_to_bytes('10MB')
+        halt 400, 'File is over 10MB'
     end
+  
     # Call save_file_to_s3 function to save the file to an amazon s3 bucket
     url = save_file_to_s3(file[:filename], file[:tempfile])
     
@@ -44,3 +44,18 @@ def save_file_to_s3(file_name, file_data)
     # Return the url of the file in the bucket
     obj.public_url
 end
+
+# A function that covert a file size to bytes
+def convert_to_bytes(file_size)
+    units = {
+      'B' => 1,
+      'KB' => 1024,
+      'MB' => 1024**2,
+      'GB' => 1024**3,
+      'TB' => 1024**4,
+      'PB' => 1024**5
+    }
+  
+    size, unit = file_size.upcase.match(/(\d+(?:\.\d+)?)([A-Z]+)/).captures
+    size.to_f * (units[unit] || 1)
+  end
