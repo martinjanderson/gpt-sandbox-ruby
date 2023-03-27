@@ -1,11 +1,40 @@
-require 'aws-sdk'
 require 'sinatra'
+require 'aws-sdk-s3'
+require 'aws-sdk-cognitoidentityprovider'
+require 'dotenv'
+
+Dotenv.load
 
 # Configure AWS
 Aws.config.update({
     region: 'us-east-1',
     credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
 })
+
+def authenticate_user(access_token)
+    client = Aws::CognitoIdentityProvider::Client.new(
+        region: 'us-east-1'
+    )
+
+  begin
+    response = client.get_user(access_token: access_token)
+    email = response.user_attributes.find { |attr| attr.name == 'email' }.value
+  rescue Aws::CognitoIdentityProvider::Errors::NotAuthorizedException
+    halt 401, 'Unauthorized'
+  end
+
+  email
+end
+
+before do
+    # Skip authentication for the /healthcheck endpoint
+    pass if request.path_info == '/healthcheck'
+
+    access_token = request.env['HTTP_AUTHORIZATION']&.gsub('Bearer ', '')
+    halt 401, 'Unauthorized' if access_token.nil?
+  
+    @current_user_email = authenticate_user(access_token)
+end
 
 # A healthcheck endpoint for the application
 get '/healthcheck' do

@@ -6,6 +6,7 @@ gem "puma"
 gem "sinatra"
 gem "aws-sdk"
 gem "nokogiri"
+gem "dotenv"
 
 group :test do
   gem 'rspec'
