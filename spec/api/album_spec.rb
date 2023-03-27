@@ -9,6 +9,7 @@ describe 'Healthcheck Endpoint' do
 end
 
 describe 'Upload Endpoint' do
+  include Rack::Test::Methods
 
   # Create two temporary jpg files before the test
   before(:each) do
