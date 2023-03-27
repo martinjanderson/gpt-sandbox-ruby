@@ -27,7 +27,7 @@ def authenticate_user(access_token)
 end
 
 before do
-    # Skip authentication for the /healthcheck endpoint
+    
     pass if request.path_info == '/healthcheck'
 
     access_token = request.env['HTTP_AUTHORIZATION']&.gsub('Bearer ', '')
