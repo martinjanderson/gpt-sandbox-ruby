@@ -4,7 +4,8 @@ source "https://rubygems.org"
 
 gem "puma"
 gem "sinatra"
-gem "aws-sdk"
+gem "aws-sdk-s3"
+gem "aws-sdk-cognitoidentityprovider"
 gem "nokogiri"
 gem "dotenv"
 

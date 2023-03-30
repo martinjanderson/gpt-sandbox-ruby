@@ -28,12 +28,19 @@ end
 
 before do
     
-    pass if request.path_info == '/healthcheck'
+    # Do not authorize an array of endpoints including healthcheck
+    next if ['/healthcheck', '/'].include?(request.path_info)
 
     access_token = request.env['HTTP_AUTHORIZATION']&.gsub('Bearer ', '')
     halt 401, 'Unauthorized' if access_token.nil?
   
     @current_user_email = authenticate_user(access_token)
+end
+
+# A root endpoint for the application
+# The root endpoint returns a semver version number
+get '/' do
+    '0.0.1'
 end
 
 # A healthcheck endpoint for the application

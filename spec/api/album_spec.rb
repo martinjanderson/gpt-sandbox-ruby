@@ -1,6 +1,15 @@
 # spec/api/album_spec.rb
 require './spec/spec_helper'
 
+describe 'Root Endpoint' do
+  it 'returns ok' do
+    get '/'
+    # Expect the response to return any type of semver formatted version number
+    expect(last_response.body).to match(/\d+\.\d+\.\d+/)
+    expect(last_response).to be_ok
+  end
+end
+
 describe 'Healthcheck Endpoint' do
   it 'returns ok' do
     get '/healthcheck'
@@ -21,7 +30,7 @@ describe 'Upload Endpoint' do
   after(:each) do
     delete_temp_file('test.jpg')
     delete_temp_file('test_big.jpg')
-  end 
+  end
 
   it 'returns ok' do
     # Mock the save_file_to_s3 function
