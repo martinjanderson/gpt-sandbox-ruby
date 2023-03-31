@@ -1,5 +1,6 @@
 # spec/api/album_spec.rb
 require './spec/spec_helper'
+require './app/album'
 
 describe 'Root Endpoint' do
   it 'returns ok' do
@@ -34,14 +35,14 @@ describe 'Upload Endpoint' do
 
   it 'returns ok' do
     # Mock the save_file_to_s3 function
-    allow_any_instance_of(Object).to receive(:save_file_to_s3).and_return('https://s3.amazonaws.com/album-images/test.jpg')
+    allow_any_instance_of(AlbumApp).to receive(:save_file_to_s3).and_return('https://s3.amazonaws.com/album-images/test.jpg')
     post '/upload', file: Rack::Test::UploadedFile.new('spec/fixtures/test.jpg', 'image/jpeg') 
     expect(last_response).to be_ok
   end
 
   it 'returns 400 if file is over 10MB' do
     # Mock the save_file_to_s3 function
-    allow_any_instance_of(Object).to receive(:save_file_to_s3).and_return('https://s3.amazonaws.com/album-images/test_big.jpg')
+    allow_any_instance_of(AlbumApp).to receive(:save_file_to_s3).and_return('https://s3.amazonaws.com/album-images/test_big.jpg')
     post '/upload', file: Rack::Test::UploadedFile.new('spec/fixtures/test_big.jpg', 'image/jpeg') 
     # Check if the response is 400
     expect(last_response.status).to eq(400)
@@ -49,7 +50,7 @@ describe 'Upload Endpoint' do
 
   it 'returns 401 if auth header is not present', :skip_global_before do
     # Mock the save_file_to_s3 function
-    allow_any_instance_of(Object).to receive(:save_file_to_s3).and_return('https://s3.amazonaws.com/album-images/test.jpg')
+    allow_any_instance_of(AlbumApp).to receive(:save_file_to_s3).and_return('https://s3.amazonaws.com/album-images/test.jpg')
     
     post '/upload', file: Rack::Test::UploadedFile.new('spec/fixtures/test.jpg', 'image/jpeg') 
     # Check if the response is 401
@@ -58,7 +59,7 @@ describe 'Upload Endpoint' do
 
   it 'returns 401 if authentication fails', :skip_global_before do
     # Mock the save_file_to_s3 function
-    allow_any_instance_of(Object).to receive(:save_file_to_s3).and_return('https://s3.amazonaws.com/album-images/test.jpg')
+    allow_any_instance_of(AlbumApp).to receive(:save_file_to_s3).and_return('https://s3.amazonaws.com/album-images/test.jpg')
     
     # Mock the Authorization header to simulate a valid access token
     header 'Authorization', "Bearer mock_token"  

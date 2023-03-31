@@ -8,7 +8,7 @@ require File.expand_path('../../app/album.rb', __FILE__)
 
 module RSpecMixin
   include Rack::Test::Methods
-  def app() Sinatra::Application end
+  def app() AlbumApp end
 end
 
 RSpec.configure do |config|
@@ -22,7 +22,7 @@ RSpec.configure do |config|
         header 'Authorization', "Bearer mock_token"  
 
         # Skip authentication for this endpoint
-        allow_any_instance_of(Object).to receive(:authenticate_user).and_return('test@martinanderson.dev')  
+        allow_any_instance_of(AlbumApp).to receive(:authenticate_user).and_return('test@example.com')  
     end
 
     config.after(:each) do

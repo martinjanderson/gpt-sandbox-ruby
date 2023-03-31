@@ -2,11 +2,13 @@
 require './app/album'
 require 'sinatra'
 require 'puma'
-
-# Set the Sinatra app as the Rack application
-run Sinatra::Application
+require 'dotenv'
 
 # Configure Puma as the server
 configure do
   set :server, :puma
 end
+
+puts "RACK_ENV: #{ENV['RACK_ENV']}"
+# Run the AlbumApp class
+run AlbumApp

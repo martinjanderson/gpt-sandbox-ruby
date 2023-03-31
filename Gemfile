@@ -8,6 +8,7 @@ gem "aws-sdk-s3"
 gem "aws-sdk-cognitoidentityprovider"
 gem "nokogiri"
 gem "dotenv"
+gem "rack-ssl-enforcer"
 
 group :test do
   gem 'rspec'
